@@ -1,0 +1,8 @@
+{application, swift,
+ [
+  {description, "EPS IBAN"},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [kernel, stdlib, inets]},
+  {env, []}
+ ]}.
