@@ -1,6 +1,11 @@
 -module(iban).
 -compile(export_all).
 -export([is_valid/1]).
+-export([start/2, stop/1, init/1]).
+
+stop(_) -> ok.
+init([]) -> {ok, { {one_for_one, 5, 10}, []} }.
+start(_, _)  -> supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 main([]) ->
     inets:start(),
@@ -24,7 +29,7 @@ ibanParser(Iban) ->
 newIban(Country,BankNumber) ->
     CountryCode = letterToNumber(Country, []),
     BankNumberCode = letterToNumber(BankNumber, []),
-    string:join([Country,checksum(BankNumber,CountryCode),BankNumber],"").
+    string:join([Country,checksum(BankNumber,CountryCode),BankNumber]," ").
 
 twosection(Sum) when Sum < 100 andalso Sum >= 0 -> lists:flatten(io_lib:format("~2..0B",[Sum])).
 checksum(BankNumber,Country) ->
